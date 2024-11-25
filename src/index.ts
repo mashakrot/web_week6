@@ -8,27 +8,10 @@ const router: Router = Router()
 type TUser = {
     name: string;
     todos: string[];
-};
-
-// const users: TUser[] = [];
-
-// router.post('/add', (req: Request, res: Response) => {
-//     const { name, todo } = req.body;
-  
-//     let user = users.find((u) => u.name === name);
-//     if (user) {
-//       user.todos.push(todo);
-//       res.json({ message: `Todo added successfully for user ${name}.` });
-//     } else {
-//       const newUser: TUser = { name, todos: [todo] };
-//       users.push(newUser);
-//       res.json({ message: `Todo added successfully for user ${name}.` });
-//     }
-// });
-  
+};  
 
 
-const filePath = path.join(__dirname, '../data/users.json');
+const filePath = path.join(__dirname, '../../data/users.json');
 
 const loadUsers = (): TUser[] => {
   if (!fs.existsSync(filePath)) {
