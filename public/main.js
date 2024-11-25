@@ -103,4 +103,45 @@ document.getElementById('todoForm').addEventListener('submit', async (event) => 
       console.error('Error deleting user:', error);
     }
   });
+
+  todos.forEach((todo) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#" class="delete-task">${todo}</a>`;
+    todoList.appendChild(li);
+  });
+
+  document.getElementById('todoList').addEventListener('click', async (event) => {
+    event.preventDefault();
+  
+    const target = event.target;
+  
+    if (target && target.classList.contains('delete-task')) {
+      const todo = target.textContent;
+      const name = document.getElementById('searchInput').value.trim();
+  
+      try {
+        const response = await fetch('/update', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name, todo }),
+        });
+  
+        const result = await response.json();
+        const messageElement = document.getElementById('searchMessage');
+  
+        if (response.ok) {
+          messageElement.textContent = result.message;
+  
+          target.parentElement.remove();
+        } else {
+          messageElement.textContent = result.message;
+        }
+      } catch (error) {
+        console.error('Error deleting todo:', error);
+      }
+    }
+  });
+  
   

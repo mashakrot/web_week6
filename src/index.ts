@@ -69,5 +69,33 @@ router.delete('/delete', (req: Request, res: Response) => {
     res.json({ message: 'User deleted successfully' });
 });
 
+router.put('/update', (req: Request, res: Response) => {
+    const { name, todo } = req.body;
+  
+    if (!name || !todo) {
+      res.json({ message: 'Name and todo are required' });
+    }
+  
+    const user = users.find((u) => u.name === name);
+  
+    if (!user) {
+      res.json({ message: 'User not found' });
+    }
+  
+    if (user) {
+        const todoIndex = user.todos.indexOf(todo);
+
+        
+        if (todoIndex === -1) {
+            res.json({ message: 'Todo not found' });
+        }
+        
+        user.todos.splice(todoIndex, 1);
+    }
+  
+    saveUsers(users);
+  
+    res.json({ message: 'Todo deleted successfully' });
+  });
 
 export default router
