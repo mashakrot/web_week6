@@ -39,7 +39,6 @@ router.post('/add', (req: Request, res: Response) => {
   }
 
   saveUsers(users);
-
   res.json({ message: `Todo added successfully for user ${name}.` });
 });
 
