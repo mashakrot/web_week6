@@ -51,6 +51,8 @@ router.get('/todos/:id', (req: Request, res: Response) => {
 
     if (user) {        
         res.json({ todos: user.todos });
+    } else {
+        res.json({ message: 'User not found' });
     }
   });
 
