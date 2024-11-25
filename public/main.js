@@ -55,9 +55,9 @@ document.getElementById('todoForm').addEventListener('submit', async (event) => 
         deleteButton.style.display = 'block'; 
 
         todos.forEach((todo) => {
-          const li = document.createElement('li');
-          li.textContent = todo;
-          todoList.appendChild(li);
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="#" class="delete-task">${todo}</a>`;
+            todoList.appendChild(li);
         });
   
         deleteButton.dataset.userName = name;
@@ -102,12 +102,6 @@ document.getElementById('todoForm').addEventListener('submit', async (event) => 
     } catch (error) {
       console.error('Error deleting user:', error);
     }
-  });
-
-  todos.forEach((todo) => {
-    const li = document.createElement('li');
-    li.innerHTML = `<a href="#" class="delete-task">${todo}</a>`;
-    todoList.appendChild(li);
   });
 
   document.getElementById('todoList').addEventListener('click', async (event) => {
