@@ -11,7 +11,7 @@ type TUser = {
 };  
 
 
-const filePath = path.join(__dirname, '../../data/users.json');
+const filePath = path.join(__dirname, '../../data.json');
 
 const loadUsers = (): TUser[] => {
   if (!fs.existsSync(filePath)) {
