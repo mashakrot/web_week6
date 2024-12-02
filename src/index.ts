@@ -47,17 +47,17 @@ router.post('/add', async (req: Request, res: Response) => {
 });
 
 
-// router.get('/todos/:id', (req: Request, res: Response) => {
-//     const { id } = req.params;
+router.get('/todos/:id', async (req: Request, res: Response) => {
+    const { id } = req.params;
   
-//     const user = users.find((u) => u.name === id);
+    let user = await User.findOne({ id });
 
-//     if (user) {        
-//         res.json({ todos: user.todos });
-//     } else {
-//         res.json({ message: 'User not found' });
-//     }
-//   });
+    if (user) {        
+        res.json({ todos: user.todos });
+    } else {
+        res.json({ message: 'User not found' });
+    }
+  });
 
 
 // router.delete('/delete', (req: Request, res: Response) => {
@@ -72,33 +72,36 @@ router.post('/add', async (req: Request, res: Response) => {
 //     res.json({ message: 'User deleted successfully' });
 // });
 
-// router.put('/update', (req: Request, res: Response) => {
-//     const { name, todo } = req.body;
+router.put('/update', async (req: Request, res: Response) => {
+  const { name, todo }: { name: string; todo: string } = req.body;
   
-//     if (!name || !todo) {
-//       res.json({ message: 'Name and todo are required' });
-//     }
+    if (!name || !todo) {
+      res.json({ message: 'Name and todo are required' });
+    }
   
-//     const user = users.find((u) => u.name === name);
+    try {
+      const user = await User.findOne({ name });
   
-//     if (!user) {
-//       res.json({ message: 'User not found' });
-//     }
+      if (!user) {
+        res.json({ message: "User not found" });
+      }
   
-//     if (user) {
-//         const todoIndex = user.todos.indexOf(todo);
+      if (user) {
 
+        const originalTodosLength = user.todos.length;
+        user.todos = user.todos.filter((t) => t.todo !== todo);
         
-//         if (todoIndex === -1) {
-//             res.json({ message: 'Todo not found' });
-//         }
+        if (user.todos.length === originalTodosLength) {
+          res.json({ message: "Todo not found" });
+        }
         
-//         user.todos.splice(todoIndex, 1);
-//     }
+        await user.save();
+      }
   
-//     saveUsers(users);
-  
-//     res.json({ message: 'Todo deleted successfully' });
-//   });
+      res.json({ message: `Todo deleted successfully for user ${name}.` });
+    } catch (error) {
+      res.json({ message: "Error deleting todo.", error });
+    }
+  });
 
 export default router
