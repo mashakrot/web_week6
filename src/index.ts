@@ -6,12 +6,6 @@ import { User, ITodo } from "./models/User";
 
 const router: Router = Router()
 
-// type TUser = {
-//     name: string;
-//     todos: string[];
-// };  
-
-
 const filePath = path.join(__dirname, '../../data.json');
 
 // const loadUsers = (): TUser[] => {
@@ -48,29 +42,46 @@ router.post('/add', async (req: Request, res: Response) => {
 
 
 router.get('/todos/:id', async (req: Request, res: Response) => {
-    const { id } = req.params;
+    const { name, id } = req.params;
   
-    let user = await User.findOne({ id });
+    // let user = await User.findOne({ name });
+    const user = await User.findOne({ name: id });
+
+
+    console.log(user)
 
     if (user) {        
         res.json({ todos: user.todos });
+        console.log(user.todos);
+        
     } else {
         res.json({ message: 'User not found' });
     }
   });
 
 
-// router.delete('/delete', (req: Request, res: Response) => {
-//     const { name } = req.body;
+  router.delete('/delete', async (req: Request, res: Response) => {
+    const { name } = req.body;
   
-//     const userIndex = users.findIndex((u) => u.name === name);
+    if (!name) {
+      res.json({ message: "Name is required." });
+    }
   
-//     users.splice(userIndex, 1);
+    try {
+      if (name) {
+        const result = await User.findOneAndDelete({ name });
+        
+        if (!result) {
+          res.json({ message: "User not found." });
+        }
+        
+        res.json({ message: 'User deleted successfully.' });
+      }
+    } catch (error) {
+      res.json({ message: 'Error deleting user.', error });
+    }
+  });
   
-//     saveUsers(users);
-  
-//     res.json({ message: 'User deleted successfully' });
-// });
 
 router.put('/update', async (req: Request, res: Response) => {
   const { name, todo }: { name: string; todo: string } = req.body;
