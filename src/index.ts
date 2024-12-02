@@ -141,7 +141,6 @@ router.put('/update', async (req: Request, res: Response) => {
           targetTodo.checked = checked;
         }
         
-        // Save the user
         await user.save();
         
         res.json({ message: "Todo updated successfully." });
