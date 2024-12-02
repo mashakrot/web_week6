@@ -139,3 +139,44 @@ document.getElementById('todoForm').addEventListener('submit', async (event) => 
   });
   
   
+
+  const todoList = document.getElementById("todoList");
+
+  // Function to render todos
+  function renderTodos(name, todos) {
+    todoList.innerHTML = ""; // Clear existing list
+    todos.forEach((todo) => {
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `
+        <input 
+          type="checkbox" 
+          class="checkBoxes" 
+          id="myCheckbox" 
+          data-name="${name}" 
+          data-todo="${todo.todo}" 
+          ${todo.checked ? "checked" : ""}
+        >
+        ${todo.todo}
+      `;
+      todoList.appendChild(listItem);
+    });
+
+    // Add event listeners to checkboxes
+    document.querySelectorAll(".checkBoxes").forEach((checkbox) => {
+      checkbox.addEventListener("change", (e) => {
+        const name = e.target.getAttribute("data-name");
+        const todo = e.target.getAttribute("data-todo");
+        const checked = e.target.checked;
+
+        // Send PUT request
+        fetch("/updateTodo", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, todo, checked }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error("Error:", error));
+      });
+    });
+  }

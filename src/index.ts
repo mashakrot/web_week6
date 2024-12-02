@@ -96,12 +96,50 @@ router.put('/update', async (req: Request, res: Response) => {
         }
         
         await user.save();
+        
+        res.json({ message: `Todo deleted successfully for user ${name}.` });
       }
-  
-      res.json({ message: `Todo deleted successfully for user ${name}.` });
     } catch (error) {
       res.json({ message: "Error deleting todo.", error });
     }
   });
+
+  router.put("/updateTodo", async (req: Request, res: Response) => {
+    const { name, todo, checked }: { name: string; todo: string; checked: boolean } = req.body;
+  
+    if (!name || !todo || typeof checked !== "boolean") {
+      res.json({ message: "Name, todo, and checked are required." });
+    }
+  
+    try {
+      const user = await User.findOne({ name });
+  
+      if (!user) {
+        res.json({ message: "User not found." });
+      }
+  
+      if (user) {
+        
+        const targetTodo = user.todos.find((t) => t.todo === todo);
+        
+        if (!targetTodo) {
+          res.json({ message: "Todo not found." });
+        }
+        
+        if (targetTodo) {
+          targetTodo.checked = checked;
+        }
+        
+        // Save the user
+        await user.save();
+        
+        res.json({ message: "Todo updated successfully." });
+      }
+    } catch (error) {
+      res.json({ message: "Error updating todo.", error });
+    }
+  });
+    
+
 
 export default router
