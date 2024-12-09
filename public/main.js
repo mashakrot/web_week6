@@ -1,4 +1,3 @@
-// Function to render an offer
 function renderOffer(offer) {
   const offerDiv = document.createElement("div");
   offerDiv.classList.add("offerDiv", "col", "s12", "m6", "l4");
@@ -41,14 +40,13 @@ function renderOffer(offer) {
   return offerDiv;
 }
 
-// Function to fetch and display offers
 async function fetchAndRenderOffers() {
   try {
     const response = await fetch("/offers");
     const offers = await response.json();
 
     const offersContainer = document.getElementById("offersContainer");
-    offersContainer.innerHTML = ""; // Clear existing offers
+    offersContainer.innerHTML = ""; 
 
     offers.forEach((offer) => {
       const offerDiv = renderOffer(offer);
@@ -59,7 +57,6 @@ async function fetchAndRenderOffers() {
   }
 }
 
-// Form submission handler
 document.getElementById("offerForm").addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -76,7 +73,6 @@ document.getElementById("offerForm").addEventListener("submit", async (event) =>
     if (response.ok) {
       alert("Offer saved successfully!");
 
-      // Fetch and re-render offers
       await fetchAndRenderOffers();
     } else {
       alert(result.message || "Failed to save offer.");
@@ -87,5 +83,4 @@ document.getElementById("offerForm").addEventListener("submit", async (event) =>
   }
 });
 
-// Fetch and render offers on page load
 document.addEventListener("DOMContentLoaded", fetchAndRenderOffers);

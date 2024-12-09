@@ -55,10 +55,10 @@ router.post('/upload', upload.single('image'), async (req: Request, res: Respons
     const newOffer: IOffer = new Offer({ title, description, price, image: imagePath });
     await newOffer.save();
 
-    res.status(201).json({ message: 'Offer saved successfully!' });
+    res.json({ message: 'Offer saved successfully!' });
   } catch (error) {
     console.error('Error saving offer:', error);
-    res.status(500).json({ message: 'Internal server error. Failed to save offer.' });
+    res.json({ message: 'Internal server error. Failed to save offer.' });
   }
 });
 
@@ -73,10 +73,10 @@ router.get("/offers", async (req: Request, res: Response) => {
       imagePath: offer.imageId && "path" in offer.imageId ? offer.imageId.path : null,
     }));
 
-    res.status(200).json(responseOffers);
+    res.json(responseOffers);
   } catch (error) {
     console.error("Error fetching offers:", error);
-    res.status(500).json({ message: "Failed to fetch offers." });
+    res.json({ message: "Failed to fetch offers." });
   }
 });
 
