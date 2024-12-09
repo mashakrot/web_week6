@@ -3,6 +3,8 @@ import fs from "fs"
 import path from "path"
 import { compile } from "morgan"
 import { Offer, IOffer } from "./models/Offer";
+import { Image, IImage } from "./models/Image";
+import upload from "./middlewares/multer";
 
 const router: Router = Router()
 
@@ -12,18 +14,36 @@ router.get("/", (req: Request, res: Response) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-router.post('/upload', async (req: Request, res: Response) => {
-  const { title, description, price } = req.body;
-
+router.post("/upload", upload.single("image"), async (req: Request, res: Response) => {
   try {
-    const newOffer: IOffer = new Offer({ title, description, price });
-        await newOffer.save();
+    const { title, description, price } = req.body;
 
-        res.status(201).send("Offer saved successfully!");
+    if (!title || !description || !price) {
+      res.status(400).json({ message: "Title, description, and price are required." });
+    }
+
+    let imageId = null;
+
+    if (req.file) {
+      const filename = req.file.filename;
+      const filepath = `public/images/${filename}`;
+
+      const newImage: IImage = new Image({ filename, path: filepath });
+      const savedImage = await newImage.save();
+      imageId = savedImage._id.toString(); 
+    }
+
+    const newOffer: IOffer = new Offer({ title, description, price: Number(price), imageId });
+    await newOffer.save();
+
+    res.status(201).json({ message: "Offer saved successfully!" });
   } catch (error) {
-    res.json({ message: 'Error saving offer.', error });
+    console.error("Error saving offer:", error);
+    res.status(500).json({ message: "Internal server error. Failed to save offer." });
   }
 });
+
+
 
 
 // router.get('/todos/:id', async (req: Request, res: Response) => {
