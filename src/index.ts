@@ -19,9 +19,9 @@ router.post('/upload', async (req: Request, res: Response) => {
     const newOffer: IOffer = new Offer({ title, description, price });
         await newOffer.save();
 
-        res.send("Offer saved successfully!");
-  } catch (err) {
-    res.status(500).send("Error saving offer: " + error.message);
+        res.status(201).send("Offer saved successfully!");
+  } catch (error) {
+    res.json({ message: 'Error saving offer.', error });
   }
 });
 
