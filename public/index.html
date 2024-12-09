@@ -5,45 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <title>Todo App</title>
+  <title>Week 6</title>
 </head>
+<!DOCTYPE html>
+<html lang="en">
 <body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Logo</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="#">Smth1</a></li>
-        <li><a href="#">Smth2</a></li>
-        <li><a href="#">Smth</a></li>
-      </ul>
-    </div>
-  </nav>
-  <div class="container">
-    <div class="col">
+    <h1>Post Your Item for Sale</h1>
+    <form id="offerForm" action="/upload" method="POST">
+        <!-- Title Input -->
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required />
 
-      <h1>Todo App</h1>
-      <form id="todoForm">
-        <input id="userInput" type="text" placeholder="Your Name" required />
-        <input id="todoInput" type="text" placeholder="Your Todo" required />
-        <button id="submit-data" class="btn" type="submit">Add Todo</button>
-      </form>
-      <p id="responseMessage"></p>
-    </div>
-      
-    <div class="col">
+        <!-- Price Input -->
+        <label for="price">Price</label>
+        <input type="number" id="price" name="price" required />
 
-      <form id="searchForm">
-        <input id="searchInput" type="text" placeholder="Search by name" required />
-        <button id="search" class="btn" type="submit">Search</button>
-      </form>
-      
-      <p id="searchMessage"></p>
-      <ul id="todoList"></ul>
-      <button id="deleteUser" class="btn" style="display: none;">Delete User</button>
-    </div>
-  </div>
-  
+        <!-- Description Textarea -->
+        <label for="description">Description</label>
+        <textarea id="description" name="description" required></textarea>
 
-  <script src="main.js"></script>
+        <!-- Image Upload -->
+        <label for="image">Upload Image</label>
+        <input type="file" id="image" name="image" />
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+    <script src="main.js"></script>
 </body>
 </html>
