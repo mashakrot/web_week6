@@ -10,27 +10,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <body>
+  <div class="container">
     <h1>Post Your Item for Sale</h1>
     <form id="offerForm" action="/upload" method="POST">
-        <!-- Title Input -->
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" required />
-
-        <!-- Price Input -->
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price" required />
-
-        <!-- Description Textarea -->
-        <label for="description">Description</label>
-        <textarea id="description" name="description" required></textarea>
-
-        <!-- Image Upload -->
-        <label for="image">Upload Image</label>
-        <input type="file" id="image" name="image" />
-
-        <!-- Submit Button -->
-        <button type="submit">Submit</button>
+      
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required />
+      
+      <label for="price">Price</label>
+      <input type="number" id="price" name="price" required />
+      
+      <label for="description">Description</label>
+      <textarea id="description" name="description" required></textarea>
+      
+      <label for="image">Upload Image</label>
+      <input type="file" id="image" name="image" />
+      
+      <button type="submit">Submit</button>
     </form>
-    <script src="main.js"></script>
+  </div>
+  <script src="main.js"></script>
 </body>
 </html>
