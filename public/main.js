@@ -56,8 +56,8 @@ document.getElementById('todoForm').addEventListener('submit', async (event) => 
 
         todos.forEach((todo) => {
             const li = document.createElement('li');
-            li.innerHTML = `<label><input type="checkbox" class="checkBoxes" data-todo="${todo.todo}" ${todo.checked ? 'checked' : ''}>
-            <span><a href="#" class="delete-task">${todo.todo}</a></span></label>`;
+            li.innerHTML = `<label><input type="checkbox" id="myCheckbox" class="checkBoxes" data-todo="${todo.todo}" ${todo.checked ? 'checked' : ''}><span><a href="#" class="delete-task">${todo.todo}</a></span></label>`;
+
             todoList.appendChild(li);
         });
   
