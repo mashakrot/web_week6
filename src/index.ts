@@ -70,7 +70,7 @@ router.get("/offers", async (req: Request, res: Response) => {
       title: offer.title,
       description: offer.description,
       price: offer.price,
-      imagePath: offer.imageId ? offer.imageId.path : null, 
+      imagePath: offer.imageId && "path" in offer.imageId ? offer.imageId.path : null,
     }));
 
     res.status(200).json(responseOffers);
